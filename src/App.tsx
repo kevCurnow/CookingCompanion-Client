@@ -1,26 +1,48 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
+import Auth from './components/User/Auth';
+import Splash from './components/Splash/Splash';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface IState {
+  sessionToken: string | undefined | null
 }
 
-export default App;
+export default class App extends Component<{}, IState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      sessionToken: ""
+    };
+  };
+
+  updateSessionToken = (newToken: string) => {
+    localStorage.setItem("sessionToken", newToken);
+    this.setState({ sessionToken: newToken })
+    
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem("sessionToken")) {
+      this.setState({ sessionToken: localStorage.getItem("sessionToken")});
+    }
+  }
+  
+  render() {
+      const session = localStorage.getItem("sessionToken");
+      return (
+        <div className="App">
+          <div id="main">
+            <h1>Cooking Companion</h1>
+            {!session ? (
+              <Auth updateSessionToken={this.updateSessionToken} />
+            ) : (
+              <Splash />
+            )}
+          </div>
+        </div>
+      );
+  }
+}
+
+
