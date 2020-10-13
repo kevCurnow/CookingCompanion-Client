@@ -2,17 +2,22 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import Auth from './components/User/Auth';
 import Splash from './components/Splash/Splash';
+import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 import './App.css';
+import SwitchController from './site/SwitchController';
+import Navbar from './components/Navbar/Navbar';
 
 interface IState {
-  sessionToken: string | undefined | null
+  sessionToken: string 
+  // isLoggedIn: boolean
 }
 
 export default class App extends Component<{}, IState> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      sessionToken: ""
+      sessionToken: "",
+      // isLoggedIn: false
     };
   };
 
@@ -22,23 +27,30 @@ export default class App extends Component<{}, IState> {
     
   }
 
-  componentDidMount() {
-    if (localStorage.getItem("sessionToken")) {
-      this.setState({ sessionToken: localStorage.getItem("sessionToken")});
-    }
-  }
+  // componentDidMount() {
+  //   if (localStorage.getItem("sessionToken")) {
+  //     this.setState({ sessionToken: localStorage.getItem("sessionToken")});
+  //   }
+  // }
   
   render() {
       const session = localStorage.getItem("sessionToken");
       return (
         <div className="App">
           <div id="main">
-            <h1>Cooking Companion</h1>
-            {!session ? (
+          <Router>
+            <Navbar sessionToken={this.state.sessionToken} />
+            
+              <SwitchController 
+                updateSessionToken={this.updateSessionToken}
+                sessionToken={this.state.sessionToken}
+                />
+            </Router>
+            {/* {!session ? (
               <Auth updateSessionToken={this.updateSessionToken} />
             ) : (
-              <Splash />
-            )}
+              <Splash loginComponentToggle={this.state.loginComponentToggle}/>
+            )} */}
           </div>
         </div>
       );

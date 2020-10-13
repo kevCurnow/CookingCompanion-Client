@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import APIURL from '../../helpers/environment';
+import { Redirect, BrowserRouter as Router } from "react-router-dom";
 
 type AcceptedProps = {
   updateSessionToken: (newToken: string) => void;
+  sessionToken: string;
 }
 
 interface IState {
@@ -73,6 +75,7 @@ class Auth extends Component<AcceptedProps, IState> {
     .then(data => {
       console.log(data);
       this.props.updateSessionToken(data.sessionToken);
+      console.log(this.props.sessionToken);
     })
     .catch(err => console.log(err))
 
@@ -89,7 +92,11 @@ class Auth extends Component<AcceptedProps, IState> {
   }
 
   render() {
+    if(this.props.sessionToken !== "") {
+      return <Redirect to="/home" />;
+    };
     return (
+      
       <div>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           {this.registerFields()}
