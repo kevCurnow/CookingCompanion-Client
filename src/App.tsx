@@ -8,7 +8,8 @@ import SwitchController from './site/SwitchController';
 import Navbar from './components/Navbar/Navbar';
 
 interface IState {
-  sessionToken: string 
+  sessionToken: string,
+  spoonID: number | undefined
   // isLoggedIn: boolean
 }
 
@@ -17,6 +18,7 @@ export default class App extends Component<{}, IState> {
     super(props);
     this.state = {
       sessionToken: "",
+      spoonID: undefined
       // isLoggedIn: false
     };
   };
@@ -25,6 +27,10 @@ export default class App extends Component<{}, IState> {
     localStorage.setItem("sessionToken", newToken);
     this.setState({ sessionToken: newToken })
     
+  }
+
+  updateRecipeID = (newID: number) => {
+    this.setState({ spoonID: newID})
   }
 
   // componentDidMount() {
@@ -44,6 +50,8 @@ export default class App extends Component<{}, IState> {
               <SwitchController 
                 updateSessionToken={this.updateSessionToken}
                 sessionToken={this.state.sessionToken}
+                updateRecipeID={this.updateRecipeID}
+                spoonID={this.state.spoonID}
                 />
             </Router>
             {/* {!session ? (

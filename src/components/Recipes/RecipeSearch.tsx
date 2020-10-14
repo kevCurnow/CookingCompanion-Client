@@ -4,7 +4,9 @@ import APIURL from "../../helpers/environment";
 import RecipeSearchDisplay from "./RecipeSearchDisplay";
 
 type AcceptedProps = {
-    sessionToken: string
+    sessionToken: string;
+    updateRecipeID: (newID: number) => void;
+    spoonID: number | undefined;
 }
 
 interface IState  {
@@ -51,7 +53,7 @@ class RecipeSearch extends Component<AcceptedProps, IState> {
                 <Button onClick={this.handleSearch}> Blah </Button>
                 </div>
                 {
-                    this.state.displaySearchResults ? <RecipeSearchDisplay results={this.state.resultsArray} /> : null
+                    this.state.displaySearchResults ? <RecipeSearchDisplay results={this.state.resultsArray} sessionToken={this.props.sessionToken} updateRecipeID={this.props.updateRecipeID} spoonID={this.props.spoonID}/> : null
                 }
             </div>
             
