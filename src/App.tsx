@@ -10,7 +10,7 @@ import Navbar from './components/Navbar/Navbar';
 interface IState {
   sessionToken: string,
   spoonID: number | undefined
-  // isLoggedIn: boolean
+  isAdmin: string
 }
 
 export default class App extends Component<{}, IState> {
@@ -18,10 +18,14 @@ export default class App extends Component<{}, IState> {
     super(props);
     this.state = {
       sessionToken: "",
-      spoonID: undefined
-      // isLoggedIn: false
+      spoonID: undefined,
+      isAdmin: "false"
     };
   };
+
+  componentDidUpdate() {
+    console.log(`Current user is an admin: ${localStorage.getItem("adminRole")}`);
+  }
 
   updateSessionToken = (newToken: string) => {
     localStorage.setItem("sessionToken", newToken);
@@ -31,6 +35,17 @@ export default class App extends Component<{}, IState> {
 
   updateRecipeID = (newID: number) => {
     this.setState({ spoonID: newID})
+  }
+
+  adminVerification = (adminString: string) => {
+    if (adminString !== null) {
+       this.setState({ isAdmin: adminString})
+       localStorage.setItem("adminRole", adminString)
+    } else {
+      this.setState({ isAdmin: "false"});
+      localStorage.setItem("adminRole", "false")
+    }
+    
   }
 
   // componentDidMount() {
@@ -52,6 +67,8 @@ export default class App extends Component<{}, IState> {
                 sessionToken={this.state.sessionToken}
                 updateRecipeID={this.updateRecipeID}
                 spoonID={this.state.spoonID}
+                isAdmin={this.state.isAdmin}
+                adminVerification={this.adminVerification}
                 />
             </Router>
             {/* {!session ? (

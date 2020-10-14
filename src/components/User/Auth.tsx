@@ -5,6 +5,8 @@ import { Redirect, BrowserRouter as Router } from "react-router-dom";
 type AcceptedProps = {
   updateSessionToken: (newToken: string) => void;
   sessionToken: string;
+  isAdmin: string;
+  adminVerification: (adminRole: string) => void;
 }
 
 interface IState {
@@ -12,7 +14,6 @@ interface IState {
   lastName: string;
   userName: string;
   password: string;
-  isAdmin: boolean;
   loginToggle: boolean;
 }
 
@@ -24,7 +25,6 @@ class Auth extends Component<AcceptedProps, IState> {
       lastName: "",
       userName: "",
       password: "",
-      isAdmin: false,
       loginToggle: true
     };
   }
@@ -62,7 +62,7 @@ class Auth extends Component<AcceptedProps, IState> {
       lastName: this.state.lastName,
       userName: this.state.userName,
       password: this.state.password,
-      isAdmin: this.state.isAdmin
+      isAdmin: "false"
     };
     fetch(url, {
       method: 'POST',
@@ -74,9 +74,13 @@ class Auth extends Component<AcceptedProps, IState> {
     .then(res => res.json())
     .then(data => {
       console.log(data);
+      console.log(data.user.isAdmin);
       this.props.updateSessionToken(data.sessionToken);
+      this.props.adminVerification(data.user.isAdmin);
+      
       console.log(this.props.sessionToken);
     })
+    
     .catch(err => console.log(err))
 
   }
@@ -89,6 +93,7 @@ class Auth extends Component<AcceptedProps, IState> {
     this.setState({ lastName: ''});
     this.setState({ userName: ''});
     this.setState({ password: ''});
+
   }
 
   render() {

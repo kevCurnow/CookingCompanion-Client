@@ -4,6 +4,7 @@ import Splash from "../components/Splash/Splash";
 import Auth from "../components/User/Auth";
 import RecipeSearch from "../components/Recipes/RecipeSearch";
 import Recipe from "../components/Recipes/Recipe";
+import Admin from "../components/User/Admin/Admin";
 
 type controllerState = {};
 type ControllerProps = {
@@ -11,6 +12,8 @@ type ControllerProps = {
     updateRecipeID: (newID: number) => void;
     sessionToken: string;
     spoonID: number | undefined;
+    isAdmin: string;
+    adminVerification: (adminString: string) => void;
 };
 
 const SwitchController: FC<ControllerProps> = (props) => {
@@ -20,11 +23,11 @@ const SwitchController: FC<ControllerProps> = (props) => {
             <Switch>
                 <Route exact path="/"> <Splash /> </Route>
                 <Route exact path="/home"><Splash /></Route>
-                <Route exact path="/auth"><Auth updateSessionToken={props.updateSessionToken} sessionToken={props.sessionToken}/></Route>
+                <Route exact path="/auth"><Auth updateSessionToken={props.updateSessionToken} sessionToken={props.sessionToken} isAdmin={props.isAdmin} adminVerification={props.adminVerification}/></Route>
                 <Route exact path="/search" render={() => <RecipeSearch sessionToken={props.sessionToken} updateRecipeID={props.updateRecipeID} spoonID={props.spoonID}/>} />
                 <Route exact path="/recipe" render={() => <Recipe sessionToken={props.sessionToken} spoonID={props.spoonID}/>} />
                 <Route exact path="/groceries" render={() => <Splash />} />
-                <Route exact path="/admin" render={() => <Splash />} />
+                <Route exact path="/admin" render={() => <Admin isAdmin={props.isAdmin} />} />
                 <Route exact path="/logout" render={() => <Splash />} />
             </Switch>
             
