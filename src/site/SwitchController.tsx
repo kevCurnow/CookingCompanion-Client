@@ -27,7 +27,7 @@ const SwitchController: FC<ControllerProps> = (props) => {
                 <Route exact path="/search" render={() => <RecipeSearch sessionToken={props.sessionToken} updateRecipeID={props.updateRecipeID} spoonID={props.spoonID}/>} />
                 <Route exact path="/recipe" render={() => <Recipe sessionToken={props.sessionToken} spoonID={props.spoonID}/>} />
                 <Route exact path="/groceries" render={() => <Splash />} />
-                <Route exact path="/admin" render={() => <Admin isAdmin={props.isAdmin} />} />
+                <Route exact path="/admin" render={() => <Admin isAdmin={props.isAdmin} sessionToken={props.sessionToken} />} />
                 <Route exact path="/logout" render={() => <Splash />} />
             </Switch>
             

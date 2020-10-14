@@ -48,6 +48,7 @@ class Navbar extends Component<AcceptedProps, IState> {
                         )
 
                         }
+                        
                     </Toolbar>
                 </div>
             </div>
