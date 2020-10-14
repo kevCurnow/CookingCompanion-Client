@@ -3,6 +3,7 @@ import { Link, Redirect, BrowserRouter as Router } from "react-router-dom";
 import {AppBar, Button, IconButton, Toolbar } from "@material-ui/core";
 type AcceptedProps = {
     sessionToken: string;
+    logout: () => void;
 }
 
 interface IState {
@@ -41,8 +42,8 @@ class Navbar extends Component<AcceptedProps, IState> {
                             <Button>
                                 <Link to="/admin">Admin</Link>
                             </Button>
-                            <Button>
-                                <Link to="/logout">Logout</Link>
+                            <Button onClick={this.props.logout}>
+                                <Link to="/home">Logout</Link>
                             </Button>
                             </div>
                         )

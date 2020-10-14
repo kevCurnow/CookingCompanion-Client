@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import APIURL from '../../helpers/environment';
 import { Redirect, BrowserRouter as Router } from "react-router-dom";
+import { TextField, Button } from "@material-ui/core";
 
 type AcceptedProps = {
   updateSessionToken: (newToken: string) => void;
@@ -31,21 +32,17 @@ class Auth extends Component<AcceptedProps, IState> {
 
   registerFields = () => this.state.loginToggle.toString() === "false" ? (
         <div>
-        <label htmlFor="firstName">First Name: </label>
-        <br />
-        <input
+        <TextField
           type="text"
-          className="firstName"
+          label="First Name"
           onChange={(event) => {
             this.setState({ firstName: event.target.value });
           }}
         />
         <br />
-        <label htmlFor="lastName">Last Name: </label>
-        <br />
-        <input
+        <TextField
           type="text"
-          className="lastName"
+          label="Last Name"
           onChange={(event) => {
             this.setState({ lastName: event.target.value });
           }}
@@ -105,29 +102,25 @@ class Auth extends Component<AcceptedProps, IState> {
       <div>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           {this.registerFields()}
-          <label htmlFor="userName">UserName: </label>
-          <br />
-          <input
+          <TextField
             type="text"
-            className="userName"
+            label="UserName"
             onChange={(event) => {
               this.setState({ userName: event.target.value });
             }}
           />
           <br />
-          <label htmlFor="password">Password: </label>
-          <br />
-          <input
+          <TextField
             type="text"
-            className="password"
+            label="Password"
             onChange={(event) => {
               this.setState({ password: event.target.value });
             }}
           />
           {this.state.loginToggle ?
-          <button onClick={this.toggleLogin}>Don't have an account yet? Click here to register</button> : null}
+          <Button onClick={this.toggleLogin}>Don't have an account yet? Click here to register</Button> : null}
           <br />
-          <button type="submit" color="success">{this.state.loginToggle ? 'Log In' : 'Create Account'}</button>
+          <Button type="submit" color="primary">{this.state.loginToggle ? 'Log In' : 'Create Account'}</Button>
           {/* <h3>{this.state.loginToggle.toString()}</h3> */}
         </form>
       </div>

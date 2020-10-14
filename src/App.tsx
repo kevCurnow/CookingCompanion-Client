@@ -48,6 +48,11 @@ export default class App extends Component<{}, IState> {
     
   }
 
+  logout = () => {
+    localStorage.clear();
+    this.setState({ sessionToken: "", isAdmin: "false"});
+  }
+
   // componentDidMount() {
   //   if (localStorage.getItem("sessionToken")) {
   //     this.setState({ sessionToken: localStorage.getItem("sessionToken")});
@@ -60,7 +65,7 @@ export default class App extends Component<{}, IState> {
         <div className="App">
           <div id="main">
           <Router>
-            <Navbar sessionToken={this.state.sessionToken} />
+            <Navbar sessionToken={this.state.sessionToken} logout={this.logout}/>
             
               <SwitchController 
                 updateSessionToken={this.updateSessionToken}
