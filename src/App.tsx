@@ -11,6 +11,7 @@ interface IState {
   sessionToken: string,
   spoonID: number | undefined
   isAdmin: string
+  userID: number | undefined
 }
 
 export default class App extends Component<{}, IState> {
@@ -19,7 +20,8 @@ export default class App extends Component<{}, IState> {
     this.state = {
       sessionToken: "",
       spoonID: undefined,
-      isAdmin: "false"
+      isAdmin: "false",
+      userID: undefined
     };
   };
 
@@ -35,6 +37,10 @@ export default class App extends Component<{}, IState> {
 
   updateRecipeID = (newID: number) => {
     this.setState({ spoonID: newID})
+  }
+
+  updateUserID = (newID: number) => {
+    this.setState({ userID: newID})
   }
 
   adminVerification = (adminString: string) => {
@@ -74,6 +80,8 @@ export default class App extends Component<{}, IState> {
                 spoonID={this.state.spoonID}
                 isAdmin={this.state.isAdmin}
                 adminVerification={this.adminVerification}
+                updateUserID={this.updateUserID}
+                userID={this.state.userID}
                 />
             </Router>
             {/* {!session ? (

@@ -2,12 +2,14 @@ import React, {Component} from 'react';
 import {Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import {AddBox} from '@material-ui/icons';
 import { Link } from 'react-router-dom';
+import APIURL from '../../helpers/environment';
 
 type passedProps = {
     results: [],
     sessionToken: string,
     updateRecipeID: (newID: number) => void;
     spoonID: number | undefined;
+    userID: number | undefined;
 }
 interface IState {
 
@@ -35,11 +37,37 @@ export default class RecipeSearchDisplay extends Component<passedProps, IState> 
                     <TableCell>{recipe.servings}</TableCell>
                     <TableCell>{recipe.nutrition.nutrients[0].amount}</TableCell>
                     <TableCell>{recipe.extendedIngredients.length}</TableCell>
-                    {this.props.sessionToken !== "" ? (<TableCell><AddBox /></TableCell>) : null}
                 </TableRow>
             );
         });
     };
+
+    saveRecipe = (recipe: any) => {
+        let url = `${APIURL}/recipe/${recipe.id}`
+        let ingredientArray: any[] = new Array;
+        recipe.extendedIngredients.forEach((ingredient: { originalString: any; }) => ingredientArray.push(ingredient.originalString))
+        let stepArray = [];
+        stepArray = (recipe.instructions.split("\n"));
+        let recipeObject = {
+            recipeName: recipe.title,
+            servings: recipe.servings,
+            readyInMinutes: recipe.readyInMinutes,
+            ingredientList: ingredientArray,
+            steps: stepArray,
+            calories: recipe.nutrition.nutrients[0].amount,
+            userID: this.props.userID
+        }
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(recipeObject),
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                "Authorization": this.props.sessionToken
+            }),
+
+        })
+    }
+
     render() {
         return(
             <Table>
@@ -51,7 +79,6 @@ export default class RecipeSearchDisplay extends Component<passedProps, IState> 
                         <TableCell>Number of Servings</TableCell>
                         <TableCell>Calories per Serving</TableCell>
                         <TableCell>Number of Ingredients</TableCell>
-                        {this.props.sessionToken !== "" ? (<TableCell>Save Recipe</TableCell>): null}
                     </TableRow>
                 </TableHead>
                 <TableBody>

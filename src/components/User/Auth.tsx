@@ -8,6 +8,7 @@ type AcceptedProps = {
   sessionToken: string;
   isAdmin: string;
   adminVerification: (adminRole: string) => void;
+  updateUserID: (newID: number) => void;
 }
 
 interface IState {
@@ -74,7 +75,7 @@ class Auth extends Component<AcceptedProps, IState> {
       console.log(data.user.isAdmin);
       this.props.updateSessionToken(data.sessionToken);
       this.props.adminVerification(data.user.isAdmin);
-      
+      this.props.updateUserID(data.user.id);
       console.log(this.props.sessionToken);
     })
     
