@@ -3,6 +3,8 @@ import APIURL from "../../helpers/environment";
 import { Button } from "@material-ui/core";
 import SpoonRecipeInstructions from "./RecipeInstructions/SpoonRecipeInstructions";
 import SavedRecipeInstructions from "./RecipeInstructions/SavedRecipeInstructions";
+import SpoonRecipeIngredients from "./RecipeIngredients/SpoonRecipeIngredients";
+import SavedRecipeIngredients from "./RecipeIngredients/SavedRecipeIngredients";
 
 
 type AcceptedProps = {
@@ -33,11 +35,17 @@ export default class RecipeDisplay extends Component<AcceptedProps, IState> {
         (this.props.spoonID !== undefined ? this.fetchSpoonRecipe() : this.fetchSavedRecipe())
     }
 
-    spoonIDCheck = () => {
+    checkForInstructions = () => {
         return (
             this.props.spoonID !== undefined ? <SpoonRecipeInstructions result={this.state.result}/> : <SavedRecipeInstructions result={this.state.result}/>
         )
         
+    }
+
+    checkForIngredients = () => {
+        return (
+            this.props.spoonID !== undefined ? <SpoonRecipeIngredients result={this.state.result}/> : <SavedRecipeIngredients result={this.state.result}/>
+        )
     }
 
     fetchSavedRecipe = () => {
@@ -71,7 +79,8 @@ export default class RecipeDisplay extends Component<AcceptedProps, IState> {
     render() {
         return(
             <div>
-                {this.state.resultRetrieved ? this.spoonIDCheck() : null}
+                {this.state.resultRetrieved ? this.checkForInstructions() : null}
+                {this.state.resultRetrieved ? this.checkForIngredients() : null}
             </div>
         )
     }
