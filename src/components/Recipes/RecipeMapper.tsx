@@ -7,7 +7,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Link,
   Modal,
   Dialog,
   DialogTitle,
@@ -17,20 +16,26 @@ import {
 } from "@material-ui/core";
 import { AddBox, Delete } from "@material-ui/icons";
 import APIURL from "../../helpers/environment";
+import RecipeCreate from "./RecipeCreate";
+import { Link } from "react-router-dom";
+
 
 type AcceptedProps = {
     recipeArray: [];
+    sessionToken: string;
+    updateSavedID: (newID: number) => void;
+    savedID: number | undefined
 };
 
 interface IState {
-
+    formOpen: boolean
 }
 
 export default class RecipeMapper extends Component<AcceptedProps, IState> {
     constructor(props: AcceptedProps) {
         super(props);
         this.state = {
-            
+            formOpen: false
         };
     }
 
@@ -42,7 +47,7 @@ export default class RecipeMapper extends Component<AcceptedProps, IState> {
                     <TableCell component="th" scope="row">
                         {recipe.recipeID}
                     </TableCell>
-                    <TableCell>{recipe.recipeName}</TableCell>
+                    <TableCell><Button onClick={(e) => this.handleRecipe(e, recipe.recipeID)}><Link to="/recipe">{recipe.recipeName}</Link></Button></TableCell>
                     <TableCell>{recipe.readyInMinutes}</TableCell>
                     <TableCell>{recipe.servings}</TableCell>
                     <TableCell>{recipe.calories}</TableCell>
@@ -52,10 +57,23 @@ export default class RecipeMapper extends Component<AcceptedProps, IState> {
             );
         });
     };
+    handleRecipe = (event: React.FormEvent<HTMLElement>, recipeID: number) => {
+        event.preventDefault();
+        this.props.updateSavedID(recipeID);
+    }
+
+    handleOpen = () => {
+        this.setState({ formOpen: true })
+    }
+
+    handleClose = () => {
+        this.setState({ formOpen: false})
+    }
 
     render() {
         return (
             <div>
+                <AddBox onClick={() => {this.handleOpen()}} />
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -70,6 +88,7 @@ export default class RecipeMapper extends Component<AcceptedProps, IState> {
                     </TableHead>
                     <TableBody>{this.mapRecipes()}</TableBody>
                 </Table>
+                <RecipeCreate formOpen={this.state.formOpen} sessionToken={this.props.sessionToken} handleClose={this.handleClose} />
             </div>
         );
     }

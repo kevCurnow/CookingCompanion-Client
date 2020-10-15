@@ -12,6 +12,7 @@ interface IState {
   spoonID: number | undefined
   isAdmin: string
   userID: number | undefined
+  savedID: number | undefined
 }
 
 export default class App extends Component<{}, IState> {
@@ -21,7 +22,8 @@ export default class App extends Component<{}, IState> {
       sessionToken: "",
       spoonID: undefined,
       isAdmin: "false",
-      userID: undefined
+      userID: undefined,
+      savedID: undefined
     };
   };
 
@@ -41,6 +43,10 @@ export default class App extends Component<{}, IState> {
 
   updateUserID = (newID: number) => {
     this.setState({ userID: newID})
+  }
+
+  updateSavedID = (newID: number) => {
+    this.setState({ savedID: newID})
   }
 
   adminVerification = (adminString: string) => {
@@ -82,6 +88,8 @@ export default class App extends Component<{}, IState> {
                 adminVerification={this.adminVerification}
                 updateUserID={this.updateUserID}
                 userID={this.state.userID}
+                updateSavedID={this.updateSavedID}
+                savedID ={this.state.savedID}
                 />
             </Router>
             {/* {!session ? (

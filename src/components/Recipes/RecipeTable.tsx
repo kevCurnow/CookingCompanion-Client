@@ -7,6 +7,8 @@ import RecipeMapper from './RecipeMapper';
 
 type AcceptedProps = {
     sessionToken: string
+    savedID: number | undefined
+    updateSavedID: (newID: number) => void
 }
 
 interface IState {
@@ -47,7 +49,7 @@ export default class RecipeTable extends Component<AcceptedProps, IState> {
     render() {
         return(
             <div>
-                {this.state.recipesFetched ? <RecipeMapper recipeArray={this.state.recipes} /> : null}
+                {this.state.recipesFetched ? <RecipeMapper recipeArray={this.state.recipes} sessionToken={this.props.sessionToken} savedID={this.props.savedID} updateSavedID={this.props.updateSavedID}/> : null}
             </div>
         )
     }

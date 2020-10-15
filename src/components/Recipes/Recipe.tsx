@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import APIURL from "../../helpers/environment";
 import { Button } from "@material-ui/core";
-import RecipeInstructions from "./RecipeInstructions";
+import RecipeInstructions from "./RecipeInstructions/SpoonRecipeInstructions";
 import { IndeterminateCheckBox } from "@material-ui/icons";
 
 type AcceptedProps = {
@@ -84,7 +84,7 @@ render() {
         <div>
             <h1>This is the recipe component for {this.props.spoonID}: {this.state.result.title}</h1>
             {this.props.sessionToken !== "" && this.state.resultRetrieved ? <Button onClick={this.saveRecipe} >Save Recipe</Button> : null}
-            {this.state.resultRetrieved ? (<RecipeInstructions result={this.state.result} />) : null}
+            {/* {this.state.resultRetrieved ? (<RecipeInstructions result={this.state.result} />) : null} */}
         </div>
     )
 }
