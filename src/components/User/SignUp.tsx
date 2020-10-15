@@ -77,7 +77,7 @@ class SignUp extends Component<AcceptedProps, IState> {
     };
     return (
       <div>
-        <FormControl onSubmit={(e) => this.handleSubmit(e)}>
+        <FormControl >
           <TextField
             type="text"
             label="UserName"
@@ -107,7 +107,7 @@ class SignUp extends Component<AcceptedProps, IState> {
             this.setState({ lastName: event.target.value });
           }}
         />
-          <Button type="submit" color="primary">Create Account</Button>
+          <Button onClick={(e) => this.handleSubmit(e)} color="primary">Create Account</Button>
           {/* <h3>{this.state.loginToggle.toString()}</h3> */}
         </FormControl>
       </div>
