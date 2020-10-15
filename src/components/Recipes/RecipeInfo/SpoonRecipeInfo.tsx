@@ -62,6 +62,7 @@ export default class SpoonRecipeInfo extends Component<AcceptedProps, IState> {
         return (
             <div>
                 <h1>{this.props.result.title}</h1>
+                {this.props.sessionToken !== "" ? <Button onClick={() => this.saveRecipe()}>SaveRecipe</Button>: null}
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -74,12 +75,8 @@ export default class SpoonRecipeInfo extends Component<AcceptedProps, IState> {
                         <TableRow>
                             <TableCell>{this.props.result.readyInMinutes.toString()}</TableCell>
                             <TableCell>{this.props.result.servings.toString()}</TableCell>
-                            <TableCell>{this.props.result.nutrients[0].amount.toString()}</TableCell>
+                            <TableCell>{this.props.result.nutrition.nutrients[0].amount.toString()}</TableCell>
                         </TableRow>
-                        {this.props.sessionToken !== "" ? <TableRow>
-                            <TableCell><Button onClick={() => {this.saveRecipe()}}>Save Recipe</Button></TableCell>
-                        </TableRow> : null}
-                        
                     </TableBody>
                 </Table>
             </div>
