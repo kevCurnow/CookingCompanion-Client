@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import Auth from './components/User/Auth';
 import Splash from './components/Splash/Splash';
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 import './App.css';
@@ -47,6 +46,7 @@ export default class App extends Component<{}, IState> {
 
   updateSavedID = (newID: number) => {
     this.setState({ savedID: newID})
+    console.log(newID);
   }
 
   adminVerification = (adminString: string) => {

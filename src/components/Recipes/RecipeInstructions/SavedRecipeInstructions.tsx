@@ -7,14 +7,18 @@ import {
   Table,
   TableBody,
   List,
+  Dialog,
 } from "@material-ui/core";
+import { Edit } from "@material-ui/icons";
+import EditInstructionsDialog from "./EditInstructionsDialog";
 
 type AcceptedProps = {
   result: any;
+  sessionToken: string
 };
 
 interface IState {
-  
+  editOpen: boolean
 }
 
 export default class SavedRecipeInstructions extends Component<
@@ -24,7 +28,7 @@ export default class SavedRecipeInstructions extends Component<
   constructor(props: AcceptedProps) {
     super(props);
     this.state = {
-      
+      editOpen: false
     };
   }
 
@@ -33,6 +37,13 @@ export default class SavedRecipeInstructions extends Component<
     
   // }
   
+  handleEdit = () => {
+    this.setState({ editOpen: true})
+  }
+
+  handleClose = () => {
+    this.setState({ editOpen: false})
+  }
 
   displaySavedInstructions = () => {
       return this.props.result.steps.map((instruction: any, index: number) => {
@@ -47,7 +58,13 @@ export default class SavedRecipeInstructions extends Component<
   };
 
   render() {
-    return <List>{this.displaySavedInstructions()}</List>
+    return (
+      <div>
+    <h2>Instructions <Edit onClick={() => {this.handleEdit()}}/></h2>
+    <List>{this.displaySavedInstructions()}</List> 
+    <EditInstructionsDialog 
+    editOpen={this.state.editOpen} result={this.props.result} handleClose={this.handleClose} sessionToken={this.props.sessionToken} /> </div>)
+
   }
 
   

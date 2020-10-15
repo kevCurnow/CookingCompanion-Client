@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import APIURL from "../../helpers/environment";
-import { Button } from "@material-ui/core";
+import { Button, Container, Grid, Paper } from "@material-ui/core";
 import SpoonRecipeInstructions from "./RecipeInstructions/SpoonRecipeInstructions";
 import SavedRecipeInstructions from "./RecipeInstructions/SavedRecipeInstructions";
 import SpoonRecipeIngredients from "./RecipeIngredients/SpoonRecipeIngredients";
@@ -34,18 +34,19 @@ export default class RecipeDisplay extends Component<AcceptedProps, IState> {
         this.setState({ resultRetrieved: false});
         console.log(this.state.resultRetrieved);
         console.log(this.props.spoonID);
+        console.log(this.props.savedID);
         (this.props.spoonID !== undefined ? this.fetchSpoonRecipe() : this.fetchSavedRecipe())
     }
 
     checkForInfo = () => {
         return (
-            this.props.spoonID !== undefined ? <SpoonRecipeInfo result={this.state.result} sessionToken={this.props.sessionToken} userID={this.props.userID}/> : <SavedRecipeInfo result={this.state.result} />
+            this.props.spoonID !== undefined ? <SpoonRecipeInfo result={this.state.result} sessionToken={this.props.sessionToken} userID={this.props.userID}/> : <SavedRecipeInfo result={this.state.result} sessionToken={this.props.sessionToken}/>
         )
     }
 
     checkForInstructions = () => {
         return (
-            this.props.spoonID !== undefined ? <SpoonRecipeInstructions result={this.state.result}/> : <SavedRecipeInstructions result={this.state.result}/>
+            this.props.spoonID !== undefined ? <SpoonRecipeInstructions result={this.state.result}/> : <SavedRecipeInstructions sessionToken={this.props.sessionToken} result={this.state.result}/>
         )
         
     }
@@ -87,9 +88,18 @@ export default class RecipeDisplay extends Component<AcceptedProps, IState> {
     render() {
         return(
             <div>
-                {this.state.resultRetrieved ? this.checkForInfo() : null}
-                {this.state.resultRetrieved ? this.checkForInstructions() : null}
-                {this.state.resultRetrieved ? this.checkForIngredients() : null}
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Paper>{this.state.resultRetrieved ? this.checkForInfo() : null}</Paper>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Paper>{this.state.resultRetrieved ? this.checkForInstructions() : null}</Paper>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Paper>{this.state.resultRetrieved ? this.checkForIngredients() : null}</Paper>
+                    </Grid>
+                
+                </Grid>
             </div>
         )
     }

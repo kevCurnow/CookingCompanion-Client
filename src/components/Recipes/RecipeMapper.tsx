@@ -59,8 +59,11 @@ export default class RecipeMapper extends Component<AcceptedProps, IState> {
     };
     handleRecipe = (event: React.FormEvent<HTMLElement>, recipeID: number) => {
         event.preventDefault();
+        console.log(recipeID);
         this.props.updateSavedID(recipeID);
     }
+
+    
 
     handleOpen = () => {
         this.setState({ formOpen: true })
@@ -73,7 +76,7 @@ export default class RecipeMapper extends Component<AcceptedProps, IState> {
     render() {
         return (
             <div>
-                <AddBox onClick={() => {this.handleOpen()}} />
+                <Button onClick={() => {this.handleOpen()}}><AddBox  /> Create Recipe </Button>
                 <Table>
                     <TableHead>
                         <TableRow>

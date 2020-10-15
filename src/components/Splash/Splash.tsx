@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, Redirect, BrowserRouter as Router } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 type AcceptedProps = {
 }
@@ -28,14 +29,14 @@ class Splash extends Component<AcceptedProps, IState> {
         return (
             <div>
                 <h1>{this.state.welcomeMessage}</h1>
-                <button onClick={(event) => {
-                    this.setState({ goToRoute: "/auth"});
+                <Button onClick={(event) => {
+                    this.setState({ goToRoute: "/login"});
                 }}>
                 Login/Signup
-                </button>
-                <button onClick={(event) => {
+                </Button>
+                <Button onClick={(event) => {
                     this.setState({ goToRoute: "/search"})
-                }}>Search Recipes</button>
+                }}>Search Recipes</Button>
             </div>
         );
     }

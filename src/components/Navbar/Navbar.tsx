@@ -29,7 +29,7 @@ class Navbar extends Component<AcceptedProps, IState> {
                         </Button>
                         {this.props.sessionToken === "" ? (
                             <Button>
-                                <Link to="/auth">Login</Link>
+                                <Link to="/login">Login</Link>
                             </Button>
                         ) : (
                             <div>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import APIURL from '../../helpers/environment';
-import { Redirect, BrowserRouter as Router } from "react-router-dom";
-import { TextField, Button } from "@material-ui/core";
+import { Redirect, BrowserRouter as Router, Link } from "react-router-dom";
+import { TextField, Button, FormControl } from "@material-ui/core";
 
 type AcceptedProps = {
   updateSessionToken: (newToken: string) => void;
@@ -12,52 +12,26 @@ type AcceptedProps = {
 }
 
 interface IState {
-  firstName: string;
-  lastName: string;
   userName: string;
   password: string;
-  loginToggle: boolean;
+  
 }
 
-class Auth extends Component<AcceptedProps, IState> {
+class LogIn extends Component<AcceptedProps, IState> {
   constructor(props: AcceptedProps) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
       userName: "",
       password: "",
-      loginToggle: true
     };
   }
 
-  registerFields = () => this.state.loginToggle.toString() === "false" ? (
-        <div>
-        <TextField
-          type="text"
-          label="First Name"
-          onChange={(event) => {
-            this.setState({ firstName: event.target.value });
-          }}
-        />
-        <br />
-        <TextField
-          type="text"
-          label="Last Name"
-          onChange={(event) => {
-            this.setState({ lastName: event.target.value });
-          }}
-        />
-        <br />
-        </div>
-  ) : null
+  
 
   handleSubmit = (event: React.FormEvent<any>) => {
     event.preventDefault();
-    let url = this.state.loginToggle ? `${APIURL}/user/login` : `${APIURL}/user/signup`
+    let url = `${APIURL}/user/login`
     let userObject = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
       userName: this.state.userName,
       password: this.state.password,
       isAdmin: "false"
@@ -78,31 +52,18 @@ class Auth extends Component<AcceptedProps, IState> {
       this.props.updateUserID(data.user.id);
       console.log(this.props.sessionToken);
     })
-    
     .catch(err => console.log(err))
 
   }
 
-  toggleLogin = (event: React.FormEvent<any>) => {
-    event.preventDefault();
-    this.setState({ loginToggle: false});
-    console.log(this.state.loginToggle);
-    this.setState({ firstName: ''});
-    this.setState({ lastName: ''});
-    this.setState({ userName: ''});
-    this.setState({ password: ''});
-
-  }
-
+  
   render() {
     if(this.props.sessionToken !== "") {
       return <Redirect to="/home" />;
     };
     return (
-      
       <div>
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          {this.registerFields()}
+        <FormControl>
           <TextField
             type="text"
             label="UserName"
@@ -110,23 +71,20 @@ class Auth extends Component<AcceptedProps, IState> {
               this.setState({ userName: event.target.value });
             }}
           />
-          <br />
           <TextField
-            type="text"
+            type="password"
             label="Password"
             onChange={(event) => {
               this.setState({ password: event.target.value });
             }}
           />
-          {this.state.loginToggle ?
-          <Button onClick={this.toggleLogin}>Don't have an account yet? Click here to register</Button> : null}
-          <br />
-          <Button type="submit" color="primary">{this.state.loginToggle ? 'Log In' : 'Create Account'}</Button>
+          <Button><Link to="/signup">Don't have an account yet? Click here to register</Link></Button>
+          <Button onClick={(e) => this.handleSubmit(e)} color="primary">Log In</Button>
           {/* <h3>{this.state.loginToggle.toString()}</h3> */}
-        </form>
+        </FormControl>
       </div>
     );
   }
 }
 
-export default Auth;
+export default LogIn;

@@ -18,6 +18,7 @@ import {
 import { AddBox, Delete } from "@material-ui/icons";
 import APIURL from "../../../helpers/environment";
 import AdminDialog from "./AdminDialog";
+import DeleteUserDialog from "./DeleteUserDialog";
 
 type AcceptedProps = {
   userArray: [];
@@ -26,7 +27,9 @@ type AcceptedProps = {
 
 interface IState {
   modalOpen: boolean,
-  userToEdit: any
+  userToEdit: any,
+  deleteModalOpen: boolean,
+  userToDelete: any
 }
 
 export default class UserMapper extends Component<AcceptedProps, IState> {
@@ -34,7 +37,9 @@ export default class UserMapper extends Component<AcceptedProps, IState> {
     super(props);
     this.state = {
       modalOpen: false,
-      userToEdit: undefined
+      userToEdit: undefined,
+      deleteModalOpen: false,
+      userToDelete: undefined
     };
   }
 
@@ -64,6 +69,7 @@ export default class UserMapper extends Component<AcceptedProps, IState> {
           ) : (
             <TableCell>{user.isAdmin.toString()}</TableCell>
           )}
+          {user.isAdmin.toString() === "false" ? (<TableCell><Delete onClick={() => {this.handleDeleteOpen(user)}}/></TableCell>) : null}
         </TableRow>
       );
     });
@@ -73,19 +79,19 @@ export default class UserMapper extends Component<AcceptedProps, IState> {
     this.setState({ modalOpen: false });
   };
 
+  handleDeleteClose = () => {
+    this.setState({ deleteModalOpen: false});
+  }
+
   handleOpen = (user: any) => {
     this.setState({ modalOpen: true })
     this.setState({userToEdit: user})
-
-    // return (
-    //   <AdminDialog
-    //     modalOpen={this.state.modalOpen}
-    //     user={this.state.userToEdit}
-    //     sessionToken={this.props.sessionToken}
-    //     handleClose={this.handleClose}
-    //   />
-    // );
   };
+
+  handleDeleteOpen = (user: any) => {
+    this.setState({ deleteModalOpen: true})
+    this.setState({ userToDelete: user})
+  }
 
   render() {
     return (
@@ -107,6 +113,12 @@ export default class UserMapper extends Component<AcceptedProps, IState> {
           userToEdit={this.state.userToEdit}
           sessionToken={this.props.sessionToken}
           handleClose={this.handleClose}
+        />
+        <DeleteUserDialog 
+        deleteModalOpen={this.state.deleteModalOpen}
+        userToDelete={this.state.userToDelete}
+        sessionToken={this.props.sessionToken}
+        handleDeleteClose={this.handleDeleteClose}
         />
       </div>
     );

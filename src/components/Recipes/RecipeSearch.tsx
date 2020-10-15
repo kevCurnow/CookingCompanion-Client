@@ -51,7 +51,7 @@ class RecipeSearch extends Component<AcceptedProps, IState> {
                 <TextField label="recipe search term" variant="outlined" type="text" onChange={(e) => {
                     this.setState({ searchString: e.target.value});
                 }} />
-                <Button onClick={this.handleSearch}> Blah </Button>
+                <Button onClick={this.handleSearch}> Search </Button>
                 </div>
                 {
                     this.state.displaySearchResults ? <RecipeSearchDisplay results={this.state.resultsArray} sessionToken={this.props.sessionToken} updateRecipeID={this.props.updateRecipeID} spoonID={this.props.spoonID} userID={this.props.userID}/> : null

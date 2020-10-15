@@ -9,6 +9,7 @@ import {
   List,
   TableHead,
   Button,
+  Container,
 } from "@material-ui/core";
 import APIURL from "../../../helpers/environment";
 
@@ -62,23 +63,25 @@ export default class SpoonRecipeInfo extends Component<AcceptedProps, IState> {
         return (
             <div>
                 <h1>{this.props.result.title}</h1>
-                {this.props.sessionToken !== "" ? <Button onClick={() => this.saveRecipe()}>SaveRecipe</Button>: null}
+                <Container>
+                {this.props.sessionToken !== "" ? <Button onClick={() => this.saveRecipe()}>Save Recipe</Button>: null}
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Cook Time in Minutes</TableCell>
-                            <TableCell>Number of Servings</TableCell>
-                            <TableCell>Calories per Serving</TableCell>
+                            <TableCell align="center"><h3>Cook Time in Minutes</h3></TableCell>
+                            <TableCell align="center"><h3>Number of Servings</h3></TableCell>
+                            <TableCell align="center"><h3>Calories per Serving</h3></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         <TableRow>
-                            <TableCell>{this.props.result.readyInMinutes.toString()}</TableCell>
-                            <TableCell>{this.props.result.servings.toString()}</TableCell>
-                            <TableCell>{this.props.result.nutrition.nutrients[0].amount.toString()}</TableCell>
+                            <TableCell align="center"><h3>{this.props.result.readyInMinutes.toString()}</h3></TableCell>
+                            <TableCell align="center"><h3>{this.props.result.servings.toString()}</h3></TableCell>
+                            <TableCell align="center"><h3>{this.props.result.nutrition.nutrients[0].amount.toString()}</h3></TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
+                </Container>
             </div>
         )
     }

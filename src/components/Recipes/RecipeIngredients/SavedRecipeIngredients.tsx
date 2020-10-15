@@ -7,6 +7,7 @@ import {
   Table,
   TableBody,
   List,
+  Container,
 } from "@material-ui/core";
 
 type AcceptedProps = {
@@ -38,6 +39,7 @@ export default class SavedRecipeIngredients extends Component<AcceptedProps, ISt
     };
 
     render() {
-        return <List>{this.displaySavedIngredients()}</List>
+        return (
+        <div><h2>Ingredients</h2><Container><List>{this.displaySavedIngredients()}</List></Container></div> )
     }
 }
