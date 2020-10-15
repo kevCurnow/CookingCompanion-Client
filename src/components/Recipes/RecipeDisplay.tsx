@@ -5,6 +5,8 @@ import SpoonRecipeInstructions from "./RecipeInstructions/SpoonRecipeInstruction
 import SavedRecipeInstructions from "./RecipeInstructions/SavedRecipeInstructions";
 import SpoonRecipeIngredients from "./RecipeIngredients/SpoonRecipeIngredients";
 import SavedRecipeIngredients from "./RecipeIngredients/SavedRecipeIngredients";
+import SpoonRecipeInfo from "./RecipeInfo/SpoonRecipeInfo";
+import SavedRecipeInfo from "./RecipeInfo/SavedRecipeInfo";
 
 
 type AcceptedProps = {
@@ -33,6 +35,12 @@ export default class RecipeDisplay extends Component<AcceptedProps, IState> {
         console.log(this.state.resultRetrieved);
         console.log(this.props.spoonID);
         (this.props.spoonID !== undefined ? this.fetchSpoonRecipe() : this.fetchSavedRecipe())
+    }
+
+    checkForInfo = () => {
+        return (
+            this.props.spoonID !== undefined ? <SpoonRecipeInfo result={this.state.result} sessionToken={this.props.sessionToken} userID={this.props.userID}/> : <SavedRecipeInfo result={this.state.result} />
+        )
     }
 
     checkForInstructions = () => {
@@ -79,6 +87,7 @@ export default class RecipeDisplay extends Component<AcceptedProps, IState> {
     render() {
         return(
             <div>
+                {this.state.resultRetrieved ? this.checkForInfo() : null}
                 {this.state.resultRetrieved ? this.checkForInstructions() : null}
                 {this.state.resultRetrieved ? this.checkForIngredients() : null}
             </div>

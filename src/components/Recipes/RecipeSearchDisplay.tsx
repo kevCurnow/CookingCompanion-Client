@@ -42,31 +42,7 @@ export default class RecipeSearchDisplay extends Component<passedProps, IState> 
         });
     };
 
-    saveRecipe = (recipe: any) => {
-        let url = `${APIURL}/recipe/${recipe.id}`
-        let ingredientArray: any[] = new Array;
-        recipe.extendedIngredients.forEach((ingredient: { originalString: any; }) => ingredientArray.push(ingredient.originalString))
-        let stepArray = [];
-        stepArray = (recipe.instructions.split("\n"));
-        let recipeObject = {
-            recipeName: recipe.title,
-            servings: recipe.servings,
-            readyInMinutes: recipe.readyInMinutes,
-            ingredientList: ingredientArray,
-            steps: stepArray,
-            calories: recipe.nutrition.nutrients[0].amount,
-            userID: this.props.userID
-        }
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(recipeObject),
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                "Authorization": this.props.sessionToken
-            }),
-
-        })
-    }
+    
 
     render() {
         return(
